@@ -33,6 +33,7 @@ function Create() {
 
   const closeCreatePostModal = () => {
     dispatch(createPostModalSwitcher(false));
+    setPost("");
   };
 
   const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
@@ -53,8 +54,7 @@ function Create() {
     if (isSuccess) {
       dispatch(createPostModalSwitcher(false));
     }
-    setPost("");
-  }, [isSuccess, isCreatePostModalVisible]);
+  }, [isSuccess]);
 
   return (
     <Modal
