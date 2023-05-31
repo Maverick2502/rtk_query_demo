@@ -31,4 +31,6 @@
 body {
   padding: 120px;
   font-family: "Montserrat", sans-serif;
+  background-color: #f0f0f0;
+  min-height: 100vh;
 }

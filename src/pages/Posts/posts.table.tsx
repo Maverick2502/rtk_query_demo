@@ -77,6 +77,7 @@ function PostsTable() {
         css={{
           height: "auto",
           minWidth: "100%",
+          backgroundColor: "#fff",
         }}
         selectionMode="none"
       >
