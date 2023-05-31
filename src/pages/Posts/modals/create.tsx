@@ -52,9 +52,9 @@ function Create() {
   useEffect(() => {
     if (isSuccess) {
       dispatch(createPostModalSwitcher(false));
-      setPost("");
     }
-  }, [isSuccess]);
+    setPost("");
+  }, [isSuccess, isCreatePostModalVisible]);
 
   return (
     <Modal
