@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Create, PostsTable, Update } from ".";
 
-function PostsPage() {
+function Posts() {
   return (
     <Fragment>
       <Create />
@@ -11,4 +11,4 @@ function PostsPage() {
   );
 }
 
-export default PostsPage;
+export default Posts;

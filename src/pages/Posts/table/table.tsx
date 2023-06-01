@@ -1,16 +1,16 @@
 // @ts-nocheck
 import { Button, Col, Row, Spacer, Table } from "@nextui-org/react";
 import { Fragment } from "react";
-import { DeleteIcon } from "../../assets/icons/DeleteIcon";
-import { EditIcon } from "../../assets/icons/EditIcon";
-import { useTypedDispatch } from "../../hooks";
-import { Posts } from "../../models";
-import { postsApi } from "../../store/api";
+import { useTypedDispatch } from "../../../hooks";
+import { Posts } from "../../../models";
+import { postsApi } from "../../../store/api";
 import {
   createPostModalSwitcher,
   updatePostModalSwitcher,
-} from "../../store/posts.slice";
-import { IconButton } from "./IconButton";
+} from "../../../store/posts.slice";
+import { DeleteIcon } from "../icons/DeleteIcon";
+import { EditIcon } from "../icons/EditIcon";
+import { IconButton } from "../icons/IconButton";
 
 const { useGetPostsQuery, useDeletePostMutation } = postsApi;
 
@@ -42,13 +42,15 @@ function PostsTable() {
 
   const renderCell = (post: Posts, columnKey: any) => {
     const cellValue = post[columnKey as keyof typeof post];
+    const body = post?.body?.slice(0, 100);
+    const title = post?.title?.slice(0, 100);
     switch (columnKey) {
       case "id":
         return <p>{post?.id}</p>;
       case "title":
-        return <p>{post?.title?.slice(0, 20)}</p>;
+        return <p>{title}</p>;
       case "body":
-        return <p>{post.body?.slice(0, 20)} </p>;
+        return <p>{body} </p>;
       case "actions":
         return (
           <Row justify="center" align="center">
@@ -69,7 +71,7 @@ function PostsTable() {
     }
   };
   return (
-    <Fragment>
+    <div>
       <Button onPress={openCreatePostModal}>Add post</Button>
       <Spacer />
       <Table
@@ -96,7 +98,7 @@ function PostsTable() {
           )}
         </Table.Body>
       </Table>
-    </Fragment>
+    </div>
   );
 }
 
