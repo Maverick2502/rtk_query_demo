@@ -11,4 +11,4 @@ interface PostsSlice {
   post: Posts;
 }
 
-export { Posts, PostsSlice };
+export type { Posts, PostsSlice };

@@ -11,23 +11,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../../hooks";
 import { postsApi } from "../../../store/api";
 import { createPostModalSwitcher } from "../../../store/posts.slice";
-
-const initialValues = {
-  id: Math.random().toString(16).slice(2),
-  body: "",
-  title: "",
-};
+import { Posts } from "../../../models";
 
 const { useAddPostMutation } = postsApi;
 
 function Create() {
   const dispatch = useTypedDispatch();
 
-  const [post, setPost] = useState(initialValues);
-
   const isCreatePostModalVisible = useTypedSelector(
     ({ posts }) => posts.isCreatePostModalVisible
   );
+  const initialValues = useTypedSelector(({ posts }) => posts.post);
+
+  const [post, setPost] = useState(initialValues);
 
   const [addPost, { isSuccess }] = useAddPostMutation();
 
@@ -41,7 +37,6 @@ function Create() {
     setPost({ ...post, [name]: value });
   };
 
-  // To memoize the validateForm function
   const validateForm = useMemo(() => {
     return post.body === "" || post.title === "";
   }, [post]);
