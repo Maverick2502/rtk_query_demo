@@ -1,14 +1,9 @@
 {
   "posts": [
     {
-      "id": "198318ace4d5",
-      "body": "JUST TRY IT",
-      "title": "NEW VERSION OF REACT"
-    },
-    {
-      "title": "TESTING",
-      "body": "TESTING",
-      "id": "a7dUUQD"
+      "id": "b4dd99988cf2",
+      "title": "React",
+      "body": "Just learn it!"
     }
   ]
 }

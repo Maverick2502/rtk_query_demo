@@ -2,7 +2,7 @@
 import { Button, Col, Row, Spacer, Table } from "@nextui-org/react";
 import { Fragment } from "react";
 import { useTypedDispatch } from "../../../hooks";
-import { Posts } from "../../../models";
+import { Column, Posts } from "../../../models";
 import { postsApi } from "../../../store/api";
 import {
   createPostModalSwitcher,
@@ -21,11 +21,11 @@ function PostsTable() {
 
   const [deletePost] = useDeletePostMutation();
 
-  const columns = [
-    { name: "Id", uid: "id" },
-    { name: "Title", uid: "title" },
-    { name: "Body", uid: "body" },
-    { name: "Actions", uid: "actions" },
+  const columns: Column[] = [
+    { name: "ID", uid: "id" },
+    { name: "TITLE", uid: "title" },
+    { name: "BODY", uid: "body" },
+    { name: "ACTIONS", uid: "actions" },
   ];
 
   const openCreatePostModal = () => {
@@ -75,7 +75,7 @@ function PostsTable() {
       <Button onPress={openCreatePostModal}>Add post</Button>
       <Spacer />
       <Table
-        aria-label="Example table with custom cells"
+        aria-label="post_table"
         css={{
           height: "auto",
           minWidth: "100%",
@@ -89,13 +89,15 @@ function PostsTable() {
           )}
         </Table.Header>
         <Table.Body items={data || []}>
-          {(item: Posts) => (
-            <Table.Row>
-              {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-              )}
-            </Table.Row>
-          )}
+          {(item: Posts) => {
+            return (
+              <Table.Row key={item.id}>
+                {(columnKey) => (
+                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                )}
+              </Table.Row>
+            );
+          }}
         </Table.Body>
       </Table>
     </div>

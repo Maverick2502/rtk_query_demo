@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Button,
   FormElement,
@@ -7,11 +6,11 @@ import {
   Spacer,
   Text,
 } from "@nextui-org/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../../hooks";
+import { Posts } from "../../../models";
 import { postsApi } from "../../../store/api";
 import { createPostModalSwitcher } from "../../../store/posts.slice";
-import { Posts } from "../../../models";
 
 const { useAddPostMutation } = postsApi;
 
@@ -24,25 +23,43 @@ function Create() {
   const initialValues = useTypedSelector(({ posts }) => posts.post);
 
   const [post, setPost] = useState(initialValues);
+  const [errors, setErrors] = useState<Partial<Posts>>({});
 
   const [addPost, { isSuccess }] = useAddPostMutation();
 
   const closeCreatePostModal = () => {
     dispatch(createPostModalSwitcher(false));
-    setPost("");
+    setPost({ id: Math.random().toString(16).slice(2), title: "", body: "" });
+    setErrors({});
   };
 
   const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
     const { name, value } = event.target;
     setPost({ ...post, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
 
-  const validateForm = useMemo(() => {
-    return post.body === "" || post.title === "";
-  }, [post]);
+  const validateForm = (): boolean => {
+    let isValid = true;
+    let newErrors: Partial<Posts> = {};
 
-  const handlePostSubmit = () => {
-    addPost(post);
+    if (!post.title) {
+      isValid = false;
+      newErrors.title = "Title field is required";
+    }
+
+    if (!post.body) {
+      isValid = false;
+      newErrors.body = "Body field is required";
+    }
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleFormSubmit = () => {
+    if (validateForm()) {
+      addPost(post);
+    }
   };
 
   useEffect(() => {
@@ -73,6 +90,7 @@ function Create() {
           value={post["title"]}
           onChange={handleOnChange}
         />
+        {errors.title && <Text color="error">{errors.title}</Text>}
         <Spacer y={0.2} />
         <Input
           color="primary"
@@ -82,17 +100,13 @@ function Create() {
           value={post["body"]}
           onChange={handleOnChange}
         />
+        {errors.body && <Text color="error">{errors.body}</Text>}
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color="error" onPress={closeCreatePostModal}>
           Close
         </Button>
-        <Button
-          disabled={validateForm}
-          animated
-          auto
-          onPress={handlePostSubmit}
-        >
+        <Button animated auto onPress={handleFormSubmit}>
           Create
         </Button>
       </Modal.Footer>
