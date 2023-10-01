@@ -3,15 +3,19 @@ import { Posts } from "../models";
 
 export const postsApi = createApi({
   reducerPath: "postsApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/",
   }),
+
   tagTypes: ["Posts"],
+
   endpoints: (builder) => ({
     getPosts: builder.query<Posts, void>({
       query: () => "posts",
       providesTags: ["Posts"],
     }),
+
     addPost: builder.mutation<void, Posts>({
       query: (body) => ({
         method: "POST",
@@ -20,6 +24,7 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ["Posts"],
     }),
+
     editPost: builder.mutation<void, Posts>({
       query: (body) => ({
         method: "PUT",
@@ -28,6 +33,7 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ["Posts"],
     }),
+
     deletePost: builder.mutation<unknown, string>({
       query: (id) => ({
         method: "DELETE",

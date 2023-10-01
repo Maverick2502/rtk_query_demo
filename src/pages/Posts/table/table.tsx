@@ -44,6 +44,7 @@ function PostsTable() {
     const cellValue = post[columnKey as keyof typeof post];
     const body = post?.body?.slice(0, 100);
     const title = post?.title?.slice(0, 100);
+
     switch (columnKey) {
       case "id":
         return <p>{post?.id}</p>;
